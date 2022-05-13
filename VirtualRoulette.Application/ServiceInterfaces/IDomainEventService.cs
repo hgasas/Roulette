@@ -4,5 +4,10 @@ namespace VirtualRoulette.Application.ServiceInterfaces;
 
 public interface IDomainEventService
 {
-    Task Publish(IDomainEvent domainEvent);
+    /// <summary>
+    /// Publishes the specified domain event.
+    /// </summary>
+    /// <param name="domainEvent"></param>
+    /// <returns></returns>
+    Task PublishAsync(IDomainEvent domainEvent);
 }

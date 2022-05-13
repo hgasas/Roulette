@@ -9,5 +9,10 @@ public class JackpotConfiguration : IEntityTypeConfiguration<Jackpot>
     public void Configure(EntityTypeBuilder<Jackpot> builder)
     {
         builder.HasKey(j => j.Id);
+
+        builder.HasData(new List<Jackpot>()
+        {
+            new(new Random().NextInt64())
+        });
     }
 }

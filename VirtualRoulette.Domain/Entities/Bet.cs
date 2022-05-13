@@ -1,5 +1,6 @@
 ﻿using VirtualRoulette.Domain.Common;
 using VirtualRoulette.Domain.Events;
+using VirtualRoulette.Domain.Exceptions;
 using VirtualRoulette.Domain.ServiceInterfaces;
 
 namespace VirtualRoulette.Domain.Entities;
@@ -38,7 +39,7 @@ public class Bet : AggregateRoot
 
         if (!IsValid(args.BetString, args.BetCheckingService))
         {
-            throw new ArgumentException("Invalid bet"); //TODO: add custom exception
+            throw new InvalidBetException("Invalid bet");
         }
 
         Id = args.IdGenerationService.GenerateId();

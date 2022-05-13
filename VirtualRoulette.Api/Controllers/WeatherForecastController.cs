@@ -1,10 +1,14 @@
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VirtualRoulette.Application.Settings;
 
 namespace VirtualRoulette.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -21,7 +25,7 @@ public class WeatherForecastController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
+    [HttpGet]
     public async Task<IActionResult> Get()
     {
         return Ok();

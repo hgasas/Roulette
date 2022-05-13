@@ -15,10 +15,12 @@ public class ServicesInstaller : IInstaller
         services.AddMediatR(typeof(ClassForGettingAssemblyFrom));
 
         services.AddSingleton<IHashingService, HashingService>();
+        services.AddSingleton<ILogService, LogService>();
         services.AddTransient<IBetCheckingService, BetCheckingService>();
         services.AddTransient<INumberGenerationService, NumberGenerationService>();
         services.AddTransient<IIdGenerationService, IdGenerationService>();
         services.AddTransient<IDomainEventService, DomainEventService>();
         services.AddTransient<IDateTimeService, DateTimeService>();
+        services.AddTransient<ILoginService, LoginService>();
     }
 }

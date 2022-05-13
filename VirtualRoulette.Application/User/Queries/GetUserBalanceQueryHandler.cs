@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using VirtualRoulette.Application.RepositoryInterfaces;
+using VirtualRoulette.Common;
 using VirtualRoulette.Contracts.v1.User.Requests.Queries;
 using VirtualRoulette.Contracts.v1.User.Responses;
 
 namespace VirtualRoulette.Application.User.Queries;
 
-public class GetUserBalanceQueryHandler : IRequestHandler<GetUserBalanceQuery, GetUserBalanceResponse>
+public class GetUserBalanceQueryHandler : IRequestHandler<GetUserBalanceQuery, Response<GetUserBalanceResponse>>
 {
     private readonly IUserRepository _userRepository;
 
@@ -14,17 +15,17 @@ public class GetUserBalanceQueryHandler : IRequestHandler<GetUserBalanceQuery, G
         _userRepository = userRepository;
     }
 
-    public async Task<GetUserBalanceResponse> Handle(GetUserBalanceQuery command, CancellationToken cancellationToken)
+    public async Task<Response<GetUserBalanceResponse>> Handle(GetUserBalanceQuery command, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(command.UserId);
-        if(user == null)
+        if (user is null)
         {
-            throw new Exception(nameof(User)); //TODO not found exception
+            return ResponseHelper<GetUserBalanceResponse>.GetResponse(StatusCode.NotFound);
         }
 
-        return new GetUserBalanceResponse()
+        return ResponseHelper<GetUserBalanceResponse>.GetResponse(StatusCode.Success, new GetUserBalanceResponse
         {
             BalanceInDollarCents = user.BalanceInDollarCents
-        };
+        });
     }
 }

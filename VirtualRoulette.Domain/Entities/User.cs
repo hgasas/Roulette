@@ -1,7 +1,7 @@
 ﻿using VirtualRoulette.Common;
 using VirtualRoulette.Domain.Common;
+using VirtualRoulette.Domain.Exceptions;
 using VirtualRoulette.Domain.ServiceInterfaces;
-using VirtualRoulette.Domain.ValueObjects;
 
 namespace VirtualRoulette.Domain.Entities;
 
@@ -9,7 +9,7 @@ public class User : AggregateRoot
 {
     public string Username { get; private set; }
     
-    public Password Password { get; private set; }
+    public string PasswordHash { get; private set; }
     
     public long BalanceInDollarCents { get; private set; }
 
@@ -22,7 +22,7 @@ public class User : AggregateRoot
         ArgumentNullException.ThrowIfNull(args, nameof(args));
 
         Id = args.IdGenerationService.GenerateId();
-        Password = GuardAgainst.Null(args.Password);
+        PasswordHash = args.HashingService.HashPassword(args.PlainPassword);
         Username = GuardAgainst.NullOrWhiteSpace(args.Username);
         BalanceInDollarCents = 0;
     }
@@ -33,7 +33,7 @@ public class User : AggregateRoot
         
         if(BalanceInDollarCents < amountInDollarCents)
         {
-            throw new Exception("Insufficient balance"); // TODO: Create custom exception
+            throw new InsufficientBalanceException("Insufficient balance");
         }
         
         BalanceInDollarCents -= GuardAgainst.Negative(amountInDollarCents);
@@ -47,11 +47,13 @@ public class User : AggregateRoot
 
 public class CreateUserArgs
 {
-    public Guid Id { get; set; }
+    public long Id { get; set; }
     
     public string Username { get; set; }
     
-    public Password Password { get; set; }
+    public string PlainPassword { get; set; }
     
     public IIdGenerationService IdGenerationService { get; set; }
+
+    public IHashingService HashingService { get; set; }
 }

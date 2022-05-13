@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using VirtualRoulette.Application.RepositoryInterfaces;
+using VirtualRoulette.Common;
 using VirtualRoulette.Contracts.v1.Jackpot.Requests.Queries;
 using VirtualRoulette.Contracts.v1.Jackpot.Responses;
 
 namespace VirtualRoulette.Application.Jackpot.Queries;
 
-public class GetCurrentJackpotQueryHandler : IRequestHandler<GetCurrentJackpotQuery, GetCurrentJackpotResponse>
+public class GetCurrentJackpotQueryHandler : IRequestHandler<GetCurrentJackpotQuery, Response<GetCurrentJackpotResponse>>
 {
     private readonly IJackpotRepository _jackpotRepository;
 
@@ -14,13 +15,14 @@ public class GetCurrentJackpotQueryHandler : IRequestHandler<GetCurrentJackpotQu
         _jackpotRepository = jackpotRepository;
     }
 
-    public async Task<GetCurrentJackpotResponse> Handle(GetCurrentJackpotQuery request, CancellationToken cancellationToken)
+    public async Task<Response<GetCurrentJackpotResponse>> Handle(
+        GetCurrentJackpotQuery request, CancellationToken cancellationToken)
     {
         var jackpot = (await _jackpotRepository.GetAllAsync()).First();
 
-        return new GetCurrentJackpotResponse()
+        return ResponseHelper<GetCurrentJackpotResponse>.GetResponse(StatusCode.Success,new GetCurrentJackpotResponse
         {
             JackpotInDollarCents = jackpot.AmountInDollarCents
-        };
+        });
     }
 }

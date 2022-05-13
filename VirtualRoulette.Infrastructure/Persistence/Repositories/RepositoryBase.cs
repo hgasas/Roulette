@@ -43,7 +43,7 @@ public class RepositoryBase<T> : IRepository<T> where T : AggregateRoot
     {
         foreach (var domainEvent in entity.NotCommittedEvents)
         {
-            await _domainEventService.Publish(domainEvent);
+            await _domainEventService.PublishAsync(domainEvent);
         }
     }
 
@@ -55,7 +55,6 @@ public class RepositoryBase<T> : IRepository<T> where T : AggregateRoot
             {
                 _dbContext.Set<T>().Update(entity);
                 var affectedRowsCount = await _dbContext.SaveChangesAsync();
-
                 
                 var isUpdated = affectedRowsCount > 0;
                 if (!isUpdated)

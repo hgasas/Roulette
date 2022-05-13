@@ -14,7 +14,7 @@ public class DomainEventService : IDomainEventService
         _mediator = mediator;
     }
 
-    public async Task Publish(IDomainEvent domainEvent)
+    public async Task PublishAsync(IDomainEvent domainEvent)
     {
         domainEvent.Commit();
         

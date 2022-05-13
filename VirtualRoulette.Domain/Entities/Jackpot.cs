@@ -6,13 +6,13 @@ public class Jackpot : AggregateRoot
 {
     public long AmountInDollarCents { get; private set; }
 
-    private Jackpot()
+    public Jackpot(long id)
     {
+        Id = id;
     }
     
     public void IncreaseAmount(long amountInDollarCents)
     {
-        Id = new Random().Next();
         AmountInDollarCents += amountInDollarCents;
     }
 }
