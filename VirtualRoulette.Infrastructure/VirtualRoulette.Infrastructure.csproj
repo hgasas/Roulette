@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="IdGen" Version="3.0.0" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.1" />
+      <PackageReference Include="System.Text.Json" Version="6.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VirtualRoulette.Application\VirtualRoulette.Application.csproj" />
+      <ProjectReference Include="..\VirtualRoulette.Domain\VirtualRoulette.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="ge.singular.roulette">
+        <HintPath>..\..\ge.singular.roulette.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
